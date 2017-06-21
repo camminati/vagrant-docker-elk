@@ -6,7 +6,7 @@ sudo apt-get install -yqq joe
 sudo apt-get install -yqq zsh
 sudo apt-get install -yqq git-core
 wget --no-check-certificate https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | sh
-sudo chsh -s /bin/zsh vagrant > /dev/null
+sudo chsh -s /bin/zsh ubuntu > /dev/null
 zsh
 
 # Docker CE
@@ -39,19 +39,30 @@ sudo sysctl -w vm.max_map_count=262144
 
 ## get/install the image: sebp/elk
 echo "Now the installation of the docker images... be patient!"
-if [ ! -f /docker/images/sebp_elk.tar.gz ]; then
+if [ ! -f /vagrant/docker/images/sebp_elk.tar.gz ]; then
     echo "Pulling sebp/elk from the net"
     sudo docker pull sebp/elk
     echo "Saving it for the next time."
-    sudo docker save sebp/elk -o /docker/images/sebp_elk.tar
-    sudo gzip /docker/images/sebp_elk.tar
+    sudo docker save sebp/elk -o /vagrant/docker/images/sebp_elk.tar
+    sudo gzip /vagrant/docker/images/sebp_elk.tar
 else
     echo "Installing local sebp/elk"
-    sudo docker load < /docker/images/sebp_elk.tar.gz
+    sudo docker load < /vagrant/docker/images/sebp_elk.tar.gz
 fi
 
-sudo touch /etc/profile.d/00-aliases.sh
-echo "alias start-elk='/usr/bin/screen sudo docker run -p 5601:5601 -p 9200:9200 -p 5044:5044 -it --name elk sebp/elk'" | tee --append .zshrc > /dev/null
-echo "alias stop-elk='sudo docker container stop elk'" | tee --append .zshrc > /dev/null
+## building Dockerfile
+echo "Building Dockerfile from /vagrant/docker/Dockerfile"
+sudo docker build /vagrant/docker/. -t extended_elk
+echo "done!"
 
-echo "You may no do 'vagrant ssh' and start-elk|stop-elk"
+## starting docker container
+echo "Starting docker container sebp/elk..."
+sudo docker run -d -p 5601:5601 -p 9200:9200 -p 5044:5044 -it --name elk extended_elk
+echo "done!"
+
+
+
+echo "alias elk-start='sudo docker container start elk'" | tee --append .zshrc > /dev/null
+echo "alias elk-stop='sudo docker container stop elk'" | tee --append .zshrc > /dev/null
+echo "alias elk-bash='sudo docker exec -i -t elk /bin/bash'"| tee --append .zshrc > /dev/null
+echo "You may no do 'vagrant ssh' and elk-start|elk-stop|elk-bash"

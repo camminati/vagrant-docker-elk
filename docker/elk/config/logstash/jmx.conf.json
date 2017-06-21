@@ -1,0 +1,54 @@
+{
+    // JBoss Remoting JMX URL
+    "url": "service:jmx:remoting-jmx://10.0.0.2:9990",
+    //username to connect to jmx
+    "username": "admin",
+    //password to connect to jmx
+    "password": "admin",
+    "alias": "jmx.instance1.elasticsearch",
+    //List of JMX metrics to retrieve
+    "queries": [
+        {
+            "object_name": "java.lang:type=Memory",
+            "attributes": [
+                "HeapMemoryUsage",
+                "NonHeapMemoryUsage"
+            ],
+            "object_alias": "Memory"
+        },
+        {
+            "object_name": "java.lang:type=Runtime",
+            "attributes": [
+                "Uptime",
+                "StartTime"
+            ],
+            "object_alias": "Runtime"
+        },
+        {
+            "object_name": "java.lang:type=Threading",
+            "attributes": [
+                "ThreadCount",
+                "TotalStartedThreadCount",
+                "DaemonThreadCount",
+                "PeakThreadCount"
+            ],
+            "object_alias": "Threading"
+        },
+        {
+            "object_name": "java.lang:type=OperatingSystem",
+            "attributes": [
+                "OpenFileDescriptorCount",
+                "FreePhysicalMemorySize",
+                "CommittedVirtualMemorySize",
+                "FreeSwapSpaceSize",
+                "ProcessCpuLoad",
+                "ProcessCpuTime",
+                "SystemCpuLoad",
+                "TotalPhysicalMemorySize",
+                "TotalSwapSpaceSize",
+                "SystemLoadAverage"
+            ],
+            "object_alias": "OperatingSystem"
+        }
+    ]
+}

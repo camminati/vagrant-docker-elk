@@ -4,7 +4,7 @@ Vagrant.configure("2") do |config|
   # https://docs.vagrantup.com.
 
  config.vm.define "elk" do |elk|
-    elk.vm.box = "ubuntu/trusty64"
+    elk.vm.box = "ubuntu/xenial64"
     elk.vm.hostname = "elk.localhost"
     elk.vm.network "private_network", ip: "10.0.0.15"
     elk.vm.network "forwarded_port", guest: 5601, host: 5601
@@ -14,6 +14,7 @@ Vagrant.configure("2") do |config|
     elk.vm.provider "virtualbox" do |virtualbox|
       virtualbox.memory = 5120
     end
-    elk.vm.synced_folder "docker/images/", "/docker/images"
+    # elk.vm.synced_folder "docker", "/vagrant/docker"
+    # elk.vm.synced_folder "elk", "/vagrant/elk"
   end
 end
