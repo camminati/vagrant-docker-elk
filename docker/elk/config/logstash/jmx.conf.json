@@ -1,12 +1,10 @@
 {
-    // JBoss Remoting JMX URL
-    "url": "service:jmx:remoting-jmx://10.0.0.2:9990",
-    //username to connect to jmx
+    "comment": "url: service:jmx:remote+http://localhost:9990",
+    "host": "10.0.0.2",
+    "port": 9990,
     "username": "admin",
-    //password to connect to jmx
     "password": "admin",
     "alias": "jmx.instance1.elasticsearch",
-    //List of JMX metrics to retrieve
     "queries": [
         {
             "object_name": "java.lang:type=Memory",
