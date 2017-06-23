@@ -1,5 +1,5 @@
 {
-    "comment": "url: service:jmx:rmi:///jndi/rmi://10.0.0.2:9990/jmxrmi",
+    "url": "service:jmx:remote+http://10.0.0.2:9990",
     "host": "10.0.0.2",
     "port": 9990,
     "username": "admin",
@@ -47,6 +47,17 @@
                 "SystemLoadAverage"
             ],
             "object_alias": "OperatingSystem"
+        },
+        {
+            "object_name": "jboss.as:deployment=project-ear-6.0.0-SNAPSHOT-mysql-50.ear,subdeployment=product-ejb-6.0.0-SNAPSHOT.jar,subsystem=ejb3,message-driven-bean=PushJobDequeuerBean",
+            "attributes": [
+                "executionTime",
+                "poolAvailableCount",
+                "poolName",
+                "poolCreateCount",
+                "poolCurrentSize"
+            ],
+            "object_alias": "PushJobDequeuerBean"
         }
     ]
 }
